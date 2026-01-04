@@ -1,0 +1,62 @@
+﻿@model List<GearTalk.Web.Models.Domain.CarCategory>
+@{
+}
+
+<div class=" bg-secondary bg-opacity-10 py-2">
+    <div class=" container">
+        <h1>Show All Car Category - Admin Functionality</h1>
+    </div>
+</div>
+
+<div class="container py-5 mb-5">
+    @if(Model != null && Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Display Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var category in Model)
+                {
+                    <tr>
+                        <td>@category.Id</td>
+                        <td>@category.Name</td>
+                        <td>@category.DisplayName</td>
+                        <td>
+                            <a asp-area="" asp-controller="AdminCarCategories" asp-action="Edit" asp-route-id="@category.Id">Update</a>
+                        </td>
+
+                        <td>
+                            <form asp-controller="AdminCarCategories"
+                                  asp-action="Delete"
+                                  method="post"
+                                  style="display:inline;">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden" name="id" value="@category.Id" />
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Er du sikker på at du vil slette denne kategorien?');">
+                                    Delete
+                                </button>
+                            </form>
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Not Found!</p>
+    }
+</div>

@@ -1,4 +1,5 @@
 using GearTalk.Web.Data;
+using GearTalk.Web.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<CarReviewDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("CarReviewDbConnectionString")));
+
+
+builder.Services.AddScoped<ICarCategory, CarCategoryRepository>();
+builder.Services.AddScoped<ICarReview, CarReviewRepository>();
 
 
 

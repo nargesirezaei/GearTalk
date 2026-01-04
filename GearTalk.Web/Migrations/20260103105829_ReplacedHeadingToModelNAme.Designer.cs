@@ -4,6 +4,7 @@ using GearTalk.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GearTalk.Web.Migrations
 {
     [DbContext(typeof(CarReviewDbContext))]
-    partial class CarReviewDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260103105829_ReplacedHeadingToModelNAme")]
+    partial class ReplacedHeadingToModelNAme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,6 +69,10 @@ namespace GearTalk.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PageTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("datetime2");
 
@@ -79,10 +86,6 @@ namespace GearTalk.Web.Migrations
 
                     b.Property<bool>("Visible")
                         .HasColumnType("bit");
-
-                    b.Property<string>("YouTubeVideoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

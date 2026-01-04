@@ -4,6 +4,7 @@ using GearTalk.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GearTalk.Web.Migrations
 {
     [DbContext(typeof(CarReviewDbContext))]
-    partial class CarReviewDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260102213326_DeletedCarCategoryId")]
+    partial class DeletedCarCategoryId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace GearTalk.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CarCategoryCarReview", b =>
+                {
+                    b.Property<Guid>("CarReviewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CarReviewsId", "CategoriesId");
+
+                    b.HasIndex("CategoriesId");
+
+                    b.ToTable("CarCategoryCarReview");
+                });
 
             modelBuilder.Entity("GearTalk.Web.Models.Domain.CarCategory", b =>
                 {
@@ -51,9 +69,6 @@ namespace GearTalk.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CarCategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -62,7 +77,11 @@ namespace GearTalk.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ModelName")
+                    b.Property<string>("Heading")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -80,31 +99,24 @@ namespace GearTalk.Web.Migrations
                     b.Property<bool>("Visible")
                         .HasColumnType("bit");
 
-                    b.Property<string>("YouTubeVideoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CarCategoryId");
 
                     b.ToTable("CarReviews");
                 });
 
-            modelBuilder.Entity("GearTalk.Web.Models.Domain.CarReview", b =>
+            modelBuilder.Entity("CarCategoryCarReview", b =>
                 {
-                    b.HasOne("GearTalk.Web.Models.Domain.CarCategory", "category")
-                        .WithMany("CarReviews")
-                        .HasForeignKey("CarCategoryId")
+                    b.HasOne("GearTalk.Web.Models.Domain.CarReview", null)
+                        .WithMany()
+                        .HasForeignKey("CarReviewsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("category");
-                });
-
-            modelBuilder.Entity("GearTalk.Web.Models.Domain.CarCategory", b =>
-                {
-                    b.Navigation("CarReviews");
+                    b.HasOne("GearTalk.Web.Models.Domain.CarCategory", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
