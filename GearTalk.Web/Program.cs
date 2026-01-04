@@ -13,6 +13,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("CarReviewDbConne
 
 builder.Services.AddScoped<ICarCategory, CarCategoryRepository>();
 builder.Services.AddScoped<ICarReview, CarReviewRepository>();
+builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();  
 
 
 
