@@ -1,8 +1,63 @@
-﻿@{
+﻿@model List<GearTalk.Web.Models.Domain.CarReview>
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="bg-light shadow-sm pt-4 pb-3 mb-5">
+    <div class="container col-xxl-8 px-4">
+        <div class="row align-items-center g-4">
+            <div class="col-12 col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">
+                    Clear, Honest Car Reviews for Smarter Decisions
+                </h1>
+                <p class="lead mb-0">
+                    GearTalk is an independent platform for honest car reviews and practical insights,
+                    created to help you make smart and informed decisions when choosing your next car.
+                    I’m Mehdi Sultani, a mechanical engineer who tests cars and breaks down both the
+                    technical details and real-world usability in a clear and accessible way.
+                </p>
+            </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+            <div class="col-12 col-lg-6 text-center">
+                <img src="https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg"
+                     class="img-fluid rounded shadow"
+                     alt="Car review hero">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            @if(Model != null && Model.Any())
+            {
+                foreach(var review in Model)
+                {
+                   <div class="mb-4  bg-light box-shadow p-4">
+                       <img src="@review.FeaturedImageUrl" alt="@review.ModelName" class="mb-3 d-block img-fluid"/>
+                       <h2 class="mb-4">@review.ModelName</h2>
+                       <p class="mb-4">
+                           Author: @review.Author
+                           <br/>
+                           Published Date: @review.PublishedDate.ToShortDateString()
+                       </p>
+                       <p class="mb-4">
+                            <span class="badge bg-secondary me-1">@review.category.Name</span>
+                        </p>
+                       <p class="mb-4">@review.ShortDescription</p>
+                        <p class="mb-4">
+                            <a href="@review.YouTubeVideoUrl" target="_blank" rel="noopener noreferrer">
+                                ▶ Watch the full review on YouTube
+                            </a>
+                        </p>
+                       <a class="btn btn-dark" href="#">Read More</a>
+                   </div>
+                }
+            }
+        </div>
+    </div>
 </div>

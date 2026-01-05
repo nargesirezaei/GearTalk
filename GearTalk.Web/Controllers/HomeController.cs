@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using GearTalk.Web.Models;
+using GearTalk.Web.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GearTalk.Web.Controllers
@@ -7,15 +9,21 @@ namespace GearTalk.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICarReview carReviewRepository;
+        private readonly ICarCategory carCategoryRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICarReview carReview, ICarCategory carCategory)
         {
             _logger = logger;
+            this.carReviewRepository = carReview;
+            this.carCategoryRepository = carCategory;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var carCategories = await carCategoryRepository.GetAllAsync();
+            var carReviews = await carReviewRepository.GetAllAsync();
+            return View(carReviews);
         }
 
         public IActionResult Privacy()
