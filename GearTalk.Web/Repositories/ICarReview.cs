@@ -9,6 +9,7 @@ namespace GearTalk.Web.Repositories
         public Task<CarReview> AddAsync(CarReview carReview);
         public Task<CarReview?> UpdateAsync(CarReview carReview);
         public Task<CarReview?> DeleteAsync(Guid id);
+        public Task<CarReview?> GetByUrlHandle(string urlHandle);
         
     }
 }

@@ -12,7 +12,9 @@ namespace GearTalk.Web.Controllers
         private readonly ICarReview carReviewRepository;
         private readonly ICarCategory carCategoryRepository;
 
-        public HomeController(ILogger<HomeController> logger, ICarReview carReview, ICarCategory carCategory)
+        public HomeController(ILogger<HomeController> logger,
+                              ICarReview carReview, 
+                              ICarCategory carCategory)
         {
             _logger = logger;
             this.carReviewRepository = carReview;

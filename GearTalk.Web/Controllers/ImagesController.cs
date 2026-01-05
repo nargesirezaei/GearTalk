@@ -32,5 +32,20 @@ namespace GearTalk.Web.Controllers
             }
             return new JsonResult(new { link = url });
         }
+
+        [HttpPost("editor")]
+        public async Task<IActionResult> UploadFromEditor(IFormFile file)
+        {
+            var url = await imageRepository.UploadAsync(file);
+
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return BadRequest();
+            }
+
+            // ⚠️ EKSAKT format Froala krever
+            return new JsonResult(new { link = url });
+        }
+
     }
 }

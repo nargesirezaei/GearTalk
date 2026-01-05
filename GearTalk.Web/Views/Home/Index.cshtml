@@ -54,7 +54,12 @@
                                 ▶ Watch the full review on YouTube
                             </a>
                         </p>
-                       <a class="btn btn-dark" href="#">Read More</a>
+                       <a class="btn btn-dark" 
+                            asp-area=""
+                            asp-controller="CarReview"
+                            asp-action="Index"
+                            asp-route-urlHandle="@review.UrlHandle"
+                       >Read More</a>
                    </div>
                 }
             }

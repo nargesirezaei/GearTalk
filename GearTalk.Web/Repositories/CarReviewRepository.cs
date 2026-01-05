@@ -42,6 +42,13 @@ namespace GearTalk.Web.Repositories
             return await dbContext.CarReviews.FirstOrDefaultAsync(x => x.Id == id);
 
         }
+
+        public async Task<CarReview?> GetByUrlHandle(string urlHandle)
+        {
+            return await dbContext.CarReviews.Include(x => x.category).FirstOrDefaultAsync(x => x.UrlHandle == urlHandle);
+            
+        }
+
         public async Task<CarReview?> UpdateAsync(CarReview carReview)
         {
             var existingReview = await dbContext.CarReviews.Include(x => x.category).FirstOrDefaultAsync(x => x.Id == carReview.Id);
