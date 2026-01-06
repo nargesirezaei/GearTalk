@@ -4,6 +4,7 @@ using GearTalk.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GearTalk.Web.Migrations
 {
     [DbContext(typeof(CarReviewDbContext))]
-    partial class CarReviewDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260106164806_Adding Like functionallity")]
+    partial class AddingLikefunctionallity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

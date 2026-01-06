@@ -1,4 +1,5 @@
-﻿using GearTalk.Web.Models.Domain;
+﻿using GearTalk.Web.Models;
+using GearTalk.Web.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace GearTalk.Web.Data
@@ -13,5 +14,6 @@ namespace GearTalk.Web.Data
         //create tables here
         public DbSet<CarReview> CarReviews { get; set; }
         public DbSet<CarCategory> CarCategories { get; set; }   
+        public DbSet<CarReviewLike> CarReviewLike  { get; set; }
     }
 }

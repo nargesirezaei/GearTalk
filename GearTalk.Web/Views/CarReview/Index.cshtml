@@ -1,4 +1,8 @@
-﻿@model GearTalk.Web.Models.Domain.CarReview
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+
+@model GearTalk.Web.Models.ViewModel.ReviewDetailsViewModel
+
 
 @{
     ViewData["Title"] = Model.ModelName;
@@ -14,6 +18,22 @@
                     <span class="text-secondary">@Model.Author</span>
                     <span class="text-secondary">@Model.PublishedDate</span>
                 </div>
+
+                <div class="mb-3">
+                    @if(signInManager.IsSignedIn(User))
+                    {
+
+                        <a style="cursor:pointer;">
+
+                            <i class="bi bi-hand-thumbs-up"></i>
+                        </a>
+                    }
+
+                    <span id="totalLikes">@Model.TotalLikes</span> likes
+                    
+                    
+                </div>
+
                 <div class="mb-3 d-flex">
                     <span class="badge bg-secondary me-1">@Model.category.Name</span>
                 </div>

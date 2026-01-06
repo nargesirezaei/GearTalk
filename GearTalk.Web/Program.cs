@@ -34,6 +34,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddScoped<ICarCategory, CarCategoryRepository>();
 builder.Services.AddScoped<ICarReview, CarReviewRepository>();
 builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();  
+builder.Services.AddScoped<ICarReviewLikeRepository, CarReviewLikeRepository>();
 
 
 

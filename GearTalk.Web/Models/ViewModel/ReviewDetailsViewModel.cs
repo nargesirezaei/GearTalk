@@ -1,6 +1,8 @@
-﻿namespace GearTalk.Web.Models.Domain
+﻿using GearTalk.Web.Models.Domain;
+
+namespace GearTalk.Web.Models.ViewModel
 {
-    public class CarReview
+    public class ReviewDetailsViewModel
     {
         public Guid Id { get; set; }
         public string ModelName { get; set; }
@@ -18,8 +20,7 @@
 
         //navigation one to meny
         public CarCategory category { get; set; }
-        public ICollection<CarReviewLike> Likes  { get; set; }
 
-
+        public int TotalLikes { get; set; }
     }
 }
