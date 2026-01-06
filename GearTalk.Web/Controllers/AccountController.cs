@@ -25,25 +25,29 @@ namespace GearTalk.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            //mapping fra viewModel to IdentityUser
-            var identityUser = new IdentityUser
+
+            if (ModelState.IsValid)
             {
-                UserName = registerViewModel.Username,
-                Email = registerViewModel.Email,
-            };
-
-            var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
-
-            if(identityResult.Succeeded)
-            {
-                //asign this user the user Role
-                 var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User"); 
-
-                if(roleIdentityResult.Succeeded)
+                var identityUser = new IdentityUser
                 {
-                    return RedirectToAction("Login", "Account");
+                    UserName = registerViewModel.Username,
+                    Email = registerViewModel.Email,
+
+                };
+                var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
+
+                if (identityResult.Succeeded)
+                {
+                    //assign this user to user role
+                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
+                    if (roleIdentityResult.Succeeded)
+                    {
+                        //show success notif
+                        return RedirectToAction("Login");
+                    }
                 }
             }
+
             return View();
 
         }
@@ -60,17 +64,26 @@ namespace GearTalk.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             //mapping 
-            var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, false , false);
-            
+            var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, false, false);
+
             if (signInResult != null && signInResult.Succeeded)
             {
-                if(!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
+                if (!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
                 {
                     return Redirect(loginViewModel.ReturnUrl);
                 }
                 return RedirectToAction("Index", "Home");
             }
+
+            ModelState.AddModelError(string.Empty, "Invalid username or password.");
+
+
+
             //show Error
             return View();
         }
