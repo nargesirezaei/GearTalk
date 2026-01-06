@@ -51,11 +51,14 @@ namespace GearTalk.Web.Data
             var superAdminId = "BFE0E3CE-FBBB-4014-903E-92B9C86EA5D4";
             var superAdminUser = new IdentityUser
             {
+                Id = superAdminId,
                 UserName = "superadmin@gearTalks.com",
-                Email = "superadmin@gearTalks.com".ToUpper(),
-                NormalizedEmail = "superadmin@gearTalks.com".ToUpper(),
-                Id = superAdminId
+                NormalizedUserName = "SUPERADMIN@GEARTALKS.COM",
+                Email = "superadmin@gearTalks.com",
+                NormalizedEmail = "SUPERADMIN@GEARTALKS.COM",
+                EmailConfirmed = true
             };
+
             superAdminUser.PasswordHash = new PasswordHasher<IdentityUser>()
                 .HashPassword(superAdminUser, "Khodam121!");
             builder.Entity<IdentityUser>().HasData(superAdminUser);

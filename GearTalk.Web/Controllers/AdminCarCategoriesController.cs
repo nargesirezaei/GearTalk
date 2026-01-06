@@ -2,11 +2,13 @@
 using GearTalk.Web.Models.Domain;
 using GearTalk.Web.Models.ViewModel;
 using GearTalk.Web.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace GearTalk.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminCarCategoriesController : Controller
     {
         private readonly ICarCategory carCtegoryRepository;
