@@ -26,6 +26,7 @@ namespace GearTalk.Web.Controllers
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
 
+            ValidateRegisterViewModel(registerViewModel);
             if (ModelState.IsValid)
             {
                 var identityUser = new IdentityUser
@@ -98,6 +99,19 @@ namespace GearTalk.Web.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+
+        private void ValidateRegisterViewModel(RegisterViewModel registerViewModel)
+        {
+            if(registerViewModel.Email is not null && registerViewModel.Username is not null )
+            {
+                if(registerViewModel.Email == registerViewModel.Username)
+                {
+                     ModelState.AddModelError("Username", "Username cannot be same as Email");
+                }
+            }
+
         }
     }
 }
