@@ -1,6 +1,8 @@
 using GearTalk.Web.Data;
 using GearTalk.Web.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,23 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<CarReviewDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("CarReviewDbConnectionString")));
+
+builder.Services.AddDbContext<AuthDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("GearTalksAuthDbConnectionString")));
+
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AuthDbContext>();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<AuthDbContext>();
 
 
 builder.Services.AddScoped<ICarCategory, CarCategoryRepository>();
@@ -33,6 +52,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

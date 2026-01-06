@@ -5,7 +5,7 @@ namespace GearTalk.Web.Data
 {
     public class CarReviewDbContext : DbContext
     {
-        public CarReviewDbContext(DbContextOptions options) : base(options)
+        public CarReviewDbContext(DbContextOptions<CarReviewDbContext> options) : base(options)
         {
 
         }
