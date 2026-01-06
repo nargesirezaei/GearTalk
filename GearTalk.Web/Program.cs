@@ -19,15 +19,16 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("GearTalksAuthDbC
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.Password.RequireDigit = true;
+    options.Password.RequireDigit = false;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;
-})
-.AddEntityFrameworkStores<AuthDbContext>();
+});
+
+
 
 
 builder.Services.AddScoped<ICarCategory, CarCategoryRepository>();
