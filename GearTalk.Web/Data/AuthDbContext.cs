@@ -52,10 +52,10 @@ namespace GearTalk.Web.Data
             var superAdminUser = new IdentityUser
             {
                 Id = superAdminId,
-                UserName = "superadmin@gearTalks.com",
-                NormalizedUserName = "SUPERADMIN@GEARTALKS.COM",
-                Email = "superadmin@gearTalks.com",
-                NormalizedEmail = "SUPERADMIN@GEARTALKS.COM",
+                UserName = "narges@gearTalks.com",
+                NormalizedUserName = "NARGES@GEARTALKS.COM",
+                Email = "narges@gearTalks.com",
+                NormalizedEmail = "NARGES@GEARTALKS.COM",
                 EmailConfirmed = true
             };
 
