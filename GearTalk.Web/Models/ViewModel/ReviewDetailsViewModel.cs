@@ -22,5 +22,6 @@ namespace GearTalk.Web.Models.ViewModel
         public CarCategory category { get; set; }
 
         public int TotalLikes { get; set; }
+        public bool Liked { get; set; }
     }
 }

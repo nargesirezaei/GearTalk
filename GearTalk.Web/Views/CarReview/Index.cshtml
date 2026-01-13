@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
 
 @model GearTalk.Web.Models.ViewModel.ReviewDetailsViewModel
 
@@ -20,14 +21,24 @@
                 </div>
 
                 <div class="mb-3">
-                    @if(signInManager.IsSignedIn(User))
+                    
+                    @if(Model.Liked)
                     {
+                        <a  style="cursor:pointer;">
 
-                        <a style="cursor:pointer;">
+                            <i class="bi bi-hand-thumbs-up-fill"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="btnLike" style="cursor:pointer;">
 
                             <i class="bi bi-hand-thumbs-up"></i>
                         </a>
                     }
+
+                       
+                    
 
                     <span id="totalLikes">@Model.TotalLikes</span> likes
                     
@@ -45,8 +56,57 @@
             {
                 <p>Review is not found!</p>
             }
-
-
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script>
+        // event listener
+        const btnLikeElement = document.getElementById('btnLike');
+        const totalLikesElement = document.getElementById('totalLikes');
+
+        async function getTotalLikes(){
+            fetch('/api/CarReviewLike/@Model.Id/totalLikes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept' : '*/*'
+
+                }
+            })
+            .then(data => data.json())
+            .then(result => totalLikesElement.innerHTML = result);
+
+        }
+
+        async function addLikeForReview() {
+            fetch('api/CarReviewLike/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+
+                },
+                body: JSON.stringify({
+
+                    CarReviewId: '@Model.Id', 
+                    UserId: '@userManager.GetUserId(User)'
+                })
+
+            }).then(() => {
+
+            btnLikeElement.innerHTML= '<i class="bi bi-hand-thumbs-up-fill"></i>';
+            btnLikeElement.removeEventListener('click', addLikeForReview);
+            getTotalLikes();
+
+            
+        });
+     
+        }
+
+
+        btnLikeElement.addEventListener('click', addLikeForReview);
+    </script>
+}
