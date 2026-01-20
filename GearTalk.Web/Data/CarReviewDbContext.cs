@@ -15,5 +15,6 @@ namespace GearTalk.Web.Data
         public DbSet<CarReview> CarReviews { get; set; }
         public DbSet<CarCategory> CarCategories { get; set; }   
         public DbSet<CarReviewLike> CarReviewLike  { get; set; }
+        public DbSet<CarReviewComment> CarReviewComment { get; set; }
     }
 }

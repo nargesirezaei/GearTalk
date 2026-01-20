@@ -36,6 +36,7 @@ builder.Services.AddScoped<ICarReview, CarReviewRepository>();
 builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();  
 builder.Services.AddScoped<ICarReviewLikeRepository, CarReviewLikeRepository>();
 builder.Services.AddScoped<IUsersRepository, UserRepository>();
+builder.Services.AddScoped<ICarReviewCommentRepository , CarReviewCommentRepository>();
 
 
 

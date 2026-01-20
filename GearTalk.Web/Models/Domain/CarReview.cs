@@ -19,6 +19,7 @@
         //navigation one to meny
         public CarCategory category { get; set; }
         public ICollection<CarReviewLike>? Likes  { get; set; }
+        public ICollection<CarReviewComment> Comments { get; set; }
 
 
     }

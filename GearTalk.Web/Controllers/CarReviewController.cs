@@ -1,8 +1,10 @@
-﻿using GearTalk.Web.Models.ViewModel;
+﻿using GearTalk.Web.Models;
+using GearTalk.Web.Models.ViewModel;
 using GearTalk.Web.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using GearTalk.Web.Models.ViewModel;
 
 namespace GearTalk.Web.Controllers
 {
@@ -12,16 +14,19 @@ namespace GearTalk.Web.Controllers
         private readonly ICarReviewLikeRepository carReviewLikeRepository;
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ICarReviewCommentRepository carReviewComment;
 
         public CarReviewController(ICarReview carReviewRepository, 
                                    ICarReviewLikeRepository carReviewLikeRepository,
                                    SignInManager<IdentityUser> signInManager,
-                                   UserManager<IdentityUser> userManager)
+                                   UserManager<IdentityUser> userManager,
+                                   ICarReviewCommentRepository carReviewComment)
         {
             this.carReviewRepository = carReviewRepository;
             this.carReviewLikeRepository = carReviewLikeRepository;
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.carReviewComment = carReviewComment;
         }
 
 
@@ -45,6 +50,21 @@ namespace GearTalk.Web.Controllers
                         liked = likeFromUser != null;
                     }
                 }
+                //get comment for car reiew
+                var reviewCommentDomainModel = await carReviewComment.GetCommentsByIdAsync(carReview.Id);
+                var carReviewCommentsForView = new List<CarReviewCommentView>();
+
+
+                foreach(var reviewComment in reviewCommentDomainModel)
+                {
+                    carReviewCommentsForView.Add(new CarReviewCommentView
+                    {
+                        Description = reviewComment.Description,
+                        DateAdded = reviewComment.DateAdded,
+                        Username = (await userManager.FindByIdAsync(reviewComment.UserId.ToString())).UserName
+                    });
+                }
+
                 carReviewViewModel = new ReviewDetailsViewModel
                 {
                     Id = carReview.Id,
@@ -59,7 +79,8 @@ namespace GearTalk.Web.Controllers
                     CarCategoryId = carReview.CarCategoryId,
                     category = carReview.category,
                     TotalLikes = totalLikes,
-                    Liked = liked
+                    Liked = liked,
+                    Comments = carReviewCommentsForView
 
                 };
                 
@@ -67,5 +88,28 @@ namespace GearTalk.Web.Controllers
             
             return View(carReviewViewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(ReviewDetailsViewModel reviewDetailsView)
+        {
+            if(signInManager.IsSignedIn(User))
+            {
+                var domainModel = new  Models.CarReviewComment
+                {
+                    CarReviewId = reviewDetailsView.Id,
+                    Description = reviewDetailsView.CommentDescription,
+                    UserId = Guid.Parse(userManager.GetUserId(User)),
+                    DateAdded = DateTime.Now
+                };
+                await carReviewComment.AddAsync(domainModel);
+                return RedirectToAction("Index", "CarReview", new { UrlHandle = reviewDetailsView.UrlHandle });
+            }
+
+            return View();
+            
+        }
     }
+
+
+
 }
