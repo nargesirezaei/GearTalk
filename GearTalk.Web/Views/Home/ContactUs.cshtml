@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+}
+
+<button class="btn btn-primary" onclick="openModal()">Contact Us</button>
+
+<!-- MODAL -->
+<div id="contactModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Contact Us</h2>
+
+        <form method="post" asp-action="SendEmail">
+            <input type="text" name="Name" placeholder="Your name" required />
+            <input type="email" name="Email" placeholder="Your email" required />
+            <textarea name="Message" placeholder="Your message" required></textarea>
+
+            <button type="submit">Send</button>
+            <button type="button" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById("contactModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("contactModal").style.display = "none";
+    }
+</script>

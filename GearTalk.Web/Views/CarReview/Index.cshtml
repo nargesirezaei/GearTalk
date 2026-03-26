@@ -19,32 +19,31 @@
                     <span class="text-secondary">@Model.Author</span>
                     <span class="text-secondary">@Model.PublishedDate</span>
                 </div>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <div class="mb-3">
+                        @if (Model.Liked)
+                        {
+                            <a style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a id="btnLike" style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </a>
+                        }
 
-                <div class="mb-3">
-                   @*  @if (signInManager.IsSignedIn(User))
-                    {
-                        
-                    } *@
-
-                    @if(Model.Liked)
-                    {
-                        <a  style="cursor:pointer;">
-
-                            <i class="bi bi-hand-thumbs-up-fill"></i>
-                        </a>
-                    }
-                    else
-                    {
-                        <a id="btnLike" style="cursor:pointer;">
-
-                            <i class="bi bi-hand-thumbs-up"></i>
-                        </a>
-                    }
-
-                    <span id="totalLikes">@Model.TotalLikes</span> likes
-                    
-                    
-                </div>
+                        <span id="totalLikes">@Model.TotalLikes</span> likes
+                    </div>
+                }
+                else
+                {
+                    <div class="mb-3">
+                        <span id="totalLikes">@Model.TotalLikes</span> likes
+                    </div>
+                }
 
                 <div class="mb-3 d-flex">
                     <span class="badge bg-secondary me-1">@Model.category.Name</span>
@@ -54,45 +53,104 @@
                     @Html.Raw(@Model.Content)
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Comments</h5>
-                        <form method="post">
-                            <div class="mb-3">
-                                <label class="form-label">Comment Description</label>
-                                <input type="text" class="form-control" asp-for="CommentDescription"/>
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-dark">Submitt</button>
-                                <input type="hidden" asp-for="Id" />
-                            </div>
-                        </form>
+                <button id="btnToggleComments" class="btn btn-dark w-100 mb-3">
+                    <i class="bi bi-chat-dots me-2"></i>
+                    View comments
+                </button>
+                <div id="commentsSection" class="d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Comments</h5>
+                        </div>
+
                         <div class="card-body">
-                            @if(Model.Comments != null && Model.Comments.Any())
+                            @* ➜ Kommentar-liste (ALLTID synlig) *@
+                            @if (Model.Comments != null && Model.Comments.Any())
                             {
-                                @foreach(var comment in Model.Comments)
+                                @foreach (var comment in Model.Comments)
                                 {
                                     <div class="card mb-3">
                                         <div class="card-body">
-                                            <div>
-                                                @comment.Description
-                                            </div>
+                                            <div>@comment.Description</div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="text-secondary">@comment.Username</span>
                                                 <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
                                             </div>
                                         </div>
                                     </div>
-                               }  
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted">No comments yet.</p>
+                            }
+
+                            <hr />
+
+                            @* ➜ Kun for innloggede *@
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                                <form method="post">
+                                    <div class="mb-3">
+                                        <label class="form-label">Write a comment</label>
+                                        <input type="text" class="form-control" asp-for="CommentDescription" />
+                                    </div>
+                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                    <input type="hidden" asp-for="Id" />
+                                </form>
+                            }
+                            else
+                            {
+                                <div class="alert alert-info mt-3">
+                                    Please <a asp-controller="Account" asp-action="Login">log in</a> or
+                                    <a asp-controller="Account" asp-action="Register">register</a> to write a comment.
+                                </div>
                             }
                         </div>
                     </div>
                 </div>
 
-                
-                    
-             
 
+                @* @if (signInManager.IsSignedIn(User))
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Comments</h5>
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label class="form-label">Comment Description</label>
+
+                                    <input type="text" class="form-control" asp-for="CommentDescription" />
+
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-dark">Submitt</button>
+                                    <input type="hidden" asp-for="Id" />
+                                </div>
+                            </form>
+                            <div class="card-body">
+                                @if (Model.Comments != null && Model.Comments.Any())
+                                {
+                                    @foreach (var comment in Model.Comments)
+                                    {
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div>
+                                                    @comment.Description
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-secondary">@comment.Username</span>
+                                                    <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                } *@
+               
             }else
             {
                 <p>Review is not found!</p>
@@ -104,50 +162,57 @@
 
 @section Scripts {
     <script>
-        // event listener
-        const btnLikeElement = document.getElementById('btnLike');
-        const totalLikesElement = document.getElementById('totalLikes');
+        document.addEventListener('DOMContentLoaded', function () {
 
-        async function getTotalLikes(){
-            fetch('/api/CarReviewLike/@Model.Id/totalLikes', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept' : '*/*'
+            // ===== LIKE =====
+            const btnLikeElement = document.getElementById('btnLike');
+            const totalLikesElement = document.getElementById('totalLikes');
 
-                }
-            })
-            .then(data => data.json())
-            .then(result => totalLikesElement.innerHTML = result);
+            async function getTotalLikes() {
+                fetch('/api/CarReviewLike/@Model.Id/totalLikes')
+                    .then(res => res.json())
+                    .then(result => totalLikesElement.innerHTML = result);
+            }
 
-        }
+            async function addLikeForReview() {
+                fetch('/api/CarReviewLike/Add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        CarReviewId: '@Model.Id',
+                        UserId: '@userManager.GetUserId(User)'
+                    })
+                }).then(() => {
+                    btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+                    btnLikeElement.removeEventListener('click', addLikeForReview);
+                    getTotalLikes();
+                });
+            }
 
-        async function addLikeForReview() {
-            fetch('api/CarReviewLike/Add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': '*/*'
+            // 🔐 Viktig guard
+            if (btnLikeElement) {
+                btnLikeElement.addEventListener('click', addLikeForReview);
+            }
 
-                },
-                body: JSON.stringify({
 
-                    CarReviewId: '@Model.Id', 
-                    UserId: '@userManager.GetUserId(User)'
-                })
+            // ===== COMMENTS TOGGLE =====
+            const btnToggleComments = document.getElementById('btnToggleComments');
+            const commentsSection = document.getElementById('commentsSection');
 
-            }).then(() => {
+            if (btnToggleComments && commentsSection) {
+                btnToggleComments.addEventListener('click', function () {
 
-            btnLikeElement.innerHTML= '<i class="bi bi-hand-thumbs-up-fill"></i>';
-            btnLikeElement.removeEventListener('click', addLikeForReview);
-            getTotalLikes();
+                    commentsSection.classList.toggle('d-none');
 
-            
+                    btnToggleComments.innerHTML = commentsSection.classList.contains('d-none')
+                        ? '<i class="bi bi-chat-dots me-2"></i> View comments'
+                        : '<i class="bi bi-x-circle me-2"></i> Hide comments';
+                });
+            }
         });
-     
-        }
-
-
-        btnLikeElement.addEventListener('click', addLikeForReview);
     </script>
+}
+
 }

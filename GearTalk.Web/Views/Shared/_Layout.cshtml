@@ -15,11 +15,17 @@
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow ">
+    <header class="header">
+        <nav class="navbar navbar-expand-sm navbar-dark  bg-dark border-bottom box-shadow ">
             <div class="container">
-            @* her skal vi ha bilde stedet for GearTalk *@
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GearTalk</a>
+            
+               @*  <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GearTalk</a> *@
+                <a class="navbar-brand d-flex align-items-center"
+                       asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/gearTalk.png" class="nav-logo me-2" alt="GearTalk logo" />
+                    @* <span>GearTalk</span> *@
+                </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,7 +33,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Reviews</a>
                         </li>
                         @if (signInManager.IsSignedIn(User)&& User.IsInRole("Admin"))
                         {
@@ -59,7 +65,7 @@
                                 @User?.Identity?.Name
                             </div>
                             <a class="btn me-3 bg-light text-dark " asp-area="" asp-controller="Account" asp-action="LogOut">
-                                LogOut
+                                Log out
                             </a>
                         }else
                         {
@@ -86,17 +92,70 @@
             </div>
         </nav>
     </header>
-    <div>
-        <main role="main" class="pb-3">
+   
+            <main role="main" class="pb-3 flex-grow-1">
             @RenderBody()
         </main>
-    </div>
+    
+        <footer class="site-footer bg-dark text-light pt-4 pb-3 mt-7">
+            <div class="container">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - GearTalk.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+                <!-- Top row: Socials (left) + Region (right) -->
+                <div class="row align-items-center mb-3">
+
+                    <!-- Social icons -->
+                    <div class="col-12 col-md-6 mb-3 mb-md-0">
+                        <div class="d-flex gap-3">
+
+                            <a href="https://www.instagram.com/mrmehdi7i/?utm_source=ig_web_button_share_sheet" class="text-light fs-4">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+
+                            <a href="https://www.youtube.com/channel/UCKMzbyQERTZSqbt1Ci3SL9w"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="text-light fs-4">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+
+                            <a href="https://www.tiktok.com/@@mrmehdis7"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="text-light fs-4">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+
+                            <a href="https://www.facebook.com/mehdi.su" class="text-light fs-4">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- Region selector -->
+                    <div class="col-12 col-md-6 text-md-end">
+                        <select class="form-select w-auto d-inline-block bg-dark text-light border-secondary">
+                            <option selected>Region: Norway</option>
+                            <option>Europe</option>
+                            <option>USA</option>
+                            <option>Asia</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Divider line -->
+                <hr class="border-secondary" />
+
+                <!-- Bottom row: links -->
+                <div class="d-flex justify-content-between small">
+                    @* <a asp-controller="Home" asp-action="ContactUs" class="text-light text-decoration-none">Contact Us</a> *@
+                    <a asp-controller="Home" asp-action="Privacy" class="text-light text-decoration-none">Privacy Policy</a>
+                </div>
+
+            </div>
+        </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

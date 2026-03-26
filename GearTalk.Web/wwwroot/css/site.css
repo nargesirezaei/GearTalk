@@ -11,16 +11,111 @@ html {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
+.nav {
+    width: 100%;
+    display: block;
+}
+.navbar {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+   
+}
 
-html {
-  position: relative;
-  min-height: 100%;
+.header {
+    width: 100%;
+    background-color: #f2f2f2; /* hvis du vil ha lys header */
+    margin-bottom: 20px; /* gir luft under headeren */
+}
+
+.site-footer {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.privacy-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 24px;
+}
+
+.privacy-container h1 {
+        margin-bottom: 10px;
+    }
+
+.last-updated {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.privacy-container h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.privacy-container p {
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.privacy-container ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.privacy-container li {
+    margin-bottom: 6px;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+}
+
+ .modal-content input,
+ .modal-content textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+ }
+
+
+html, body {
+    height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
 }
+
+main {
+    flex: 1;
+}
+
 .blog-details-content img{
     max-width: 100%;
 
 }
+
+/*logo*/
+.nav-logo {
+    width: 160px; /* størrelse på logoen */
+    height: 160px;
+    border-radius: 50%; /* gjør den rund */
+    object-fit: cover; /* fyller sirkelen pent */
+}
+
