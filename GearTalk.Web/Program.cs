@@ -1,8 +1,11 @@
-using GearTalk.Web.Data;
+﻿using GearTalk.Web.Data;
+using GearTalk.Web.Models.ViewModel;
 using GearTalk.Web.Repositories;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +45,7 @@ builder.Services.AddScoped<ICarReviewCommentRepository , CarReviewCommentReposit
 
 var app = builder.Build();
 
-//resten er middleware som h�ndtrerer http request.
+//resten er middleware som håndtrerer http request.
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -62,7 +65,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//auto?migrate
+//auto‑migrate
 using (var scope = app.Services.CreateScope())
 {
     var db1 = scope.ServiceProvider.GetRequiredService<CarReviewDbContext>();
