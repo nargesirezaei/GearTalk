@@ -119,3 +119,9 @@ main {
     object-fit: cover; /* fyller sirkelen pent */
 }
 
+.review-card img {
+    aspect-ratio: 16/9;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
