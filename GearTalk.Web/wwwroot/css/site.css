@@ -15,16 +15,19 @@ html {
     width: 100%;
     display: block;
 }
-.navbar {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-   
-}
-
 .header {
     width: 100%;
-    background-color: #f2f2f2; /* hvis du vil ha lys header */
-    margin-bottom: 20px; /* gir luft under headeren */
+    margin: 0;
+    padding: 0;
+    border: none;
+    line-height: 0;
+}
+
+.navbar {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    margin: 0 !important;
+    border: none !important;
 }
 
 .site-footer {
