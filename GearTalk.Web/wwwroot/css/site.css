@@ -24,10 +24,9 @@ html {
 }
 
 .navbar {
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
+    padding-top: 0.2rem !important;
+    padding-bottom: 0.2rem !important;
     margin: 0 !important;
-    border: none !important;
 }
 
 .site-footer {
@@ -116,10 +115,10 @@ main {
 
 /*logo*/
 .nav-logo {
-    width: 160px; /* størrelse på logoen */
-    height: 160px;
-    border-radius: 50%; /* gjør den rund */
-    object-fit: cover; /* fyller sirkelen pent */
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .review-card img {
